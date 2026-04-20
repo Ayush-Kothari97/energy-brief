@@ -1167,7 +1167,10 @@ function mapInit() {
 // =============================================================
 // CONTENT LOADER — fetches data/content.json and renders cards
 // =============================================================
+// GitHub Pages URL — resolves relative to the page URL
+// https://ayush-kothari97.github.io/energy-brief/data/content.json
 var CONTENT_URL = 'data/content.json';
+var CONTENT_URL_FALLBACK = 'https://raw.githubusercontent.com/Ayush-Kothari97/energy-brief/main/data/content.json';
 var digestData = null;
 
 function renderCard(card) {
@@ -1208,6 +1211,11 @@ function loadDigest() {
     .then(function(r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
+    })
+    .catch(function() {
+      // Fallback: fetch directly from GitHub raw content
+      return fetch(CONTENT_URL_FALLBACK + '?v=' + Date.now())
+        .then(function(r) { return r.json(); });
     })
     .then(function(data) {
       digestData = data;
