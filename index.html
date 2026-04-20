@@ -232,52 +232,112 @@ body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);dis
     <div class="sv visible" id="section-market-pulse">
       <div class="sey">Daily Market Pulse</div><div class="stitle">Oil &amp; Gas Commodity Markets</div>
       <div class="sdesc">Benchmark prices, commodity flows, and the market-moving stories of the day &mdash; the raw signal before the interpretation.</div>
-      <div class="ph"><div class="phi">&#x25C8;</div><h3>Today's market snapshot</h3><p>Brent, WTI, Henry Hub, JKM, TTF and key commodity benchmarks.</p></div>
+      <div id="cards-market-pulse" class="cards-container" data-section="market-pulse">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-geopolitical">
       <div class="sey">Geopolitical Lens</div><div class="stitle">Power, Pipelines &amp; Policy</div>
       <div class="sdesc">The forces behind the numbers &mdash; OPEC+ decisions, sanctions regimes, pipeline diplomacy, and conflicts reshaping energy flows.</div>
-      <div class="ph"><div class="phi">&#x25C9;</div><h3>Geopolitical brief</h3><p>CSIS, Columbia CGEP, OIES, Doomberg.</p></div>
+      <div id="cards-geopolitical" class="cards-container" data-section="geopolitical">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-india">
       <div class="sey">India Monitor</div><div class="stitle">India Energy Watch</div>
       <div class="sdesc">How the global energy story lands on Indian soil &mdash; imports, policy, PSU activity, refinery capacity, and the energy transition at scale.</div>
-      <div class="ph"><div class="phi">&#x25CE;</div><h3>India energy brief</h3><p>MoPNG, ONGC, Reliance, TERI, India Energy Week.</p></div>
+      <div id="cards-india" class="cards-container" data-section="india">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-upstream">
       <div class="sey">Sector Deep Dive &middot; Upstream</div><div class="stitle">Exploration &amp; Production</div>
       <div class="sdesc">Exploration, drilling, field development, production data &mdash; where oil and gas comes from. Rig counts live here.</div>
-      <div class="ph"><div class="phi">&#x25B7;</div><h3>Upstream intelligence</h3><p>SPE/JPT, Wood Mackenzie, Rystad, Hart Energy, OGJ.</p></div>
+      <div id="cards-upstream" class="cards-container" data-section="upstream">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-midstream">
       <div class="sey">Sector Deep Dive &middot; Midstream</div><div class="stitle">Pipelines, LNG &amp; Storage</div>
       <div class="sdesc">Pipelines, LNG terminals, storage, tanker movements &mdash; the infrastructure connecting production to markets.</div>
-      <div class="ph"><div class="phi">&#x25B7;</div><h3>Midstream intelligence</h3><p>LNG Industry, Gas Processing &amp; LNG, Pipeline &amp; Gas Journal.</p></div>
+      <div id="cards-midstream" class="cards-container" data-section="midstream">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-downstream">
       <div class="sey">Sector Deep Dive &middot; Downstream</div><div class="stitle">Refining &amp; Product Markets</div>
       <div class="sdesc">Refining margins, product prices, crack spreads &mdash; the conversion of crude into the fuels the world runs on.</div>
-      <div class="ph"><div class="phi">&#x25B7;</div><h3>Downstream intelligence</h3><p>Hydrocarbon Processing, OGJ Downstream, Platts.</p></div>
+      <div id="cards-downstream" class="cards-container" data-section="downstream">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-petrochems">
       <div class="sey">Sector Deep Dive &middot; Petrochemicals</div><div class="stitle">Olefins, Aromatics &amp; Polymers</div>
       <div class="sdesc">Olefins, aromatics, polymers, feedstock dynamics &mdash; the chemical industry's dependency on and divergence from crude oil.</div>
-      <div class="ph"><div class="phi">&#x25B7;</div><h3>Petrochemicals intelligence</h3><p>ICIS, Hydrocarbon Processing, GlobalData, Offshore Technology.</p></div>
+      <div id="cards-petrochems" class="cards-container" data-section="petrochems">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-og-projects">
       <div class="sey">Project Tracker &middot; O&amp;G</div><div class="stitle">FIDs, Discoveries &amp; Awards</div>
       <div class="sdesc">FIDs, first oil milestones, offshore awards, LNG train sanctions, and drilling campaigns underway globally.</div>
-      <div class="ph"><div class="phi">&#x25A3;</div><h3>O&amp;G project tracker</h3><p>Hart Energy, Upstream Online, Rystad, Wood Mackenzie.</p></div>
+      <div id="cards-og-projects" class="cards-container" data-section="og-projects">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-re-projects">
       <div class="sey">Project Tracker &middot; Renewables</div><div class="stitle">Solar, Wind &amp; Storage Build-Out</div>
       <div class="sdesc">Solar, wind, and storage project announcements, capacity additions, commissioning news, and deal flow globally.</div>
-      <div class="ph"><div class="phi">&#x25A3;</div><h3>Renewable project tracker</h3><p>Renewables Now, reNews, Renewable Energy World.</p></div>
+      <div id="cards-re-projects" class="cards-container" data-section="re-projects">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-supply-demand">
       <div class="sey">Supply &amp; Demand</div><div class="stitle">IEA, EIA &amp; OPEC Forecasts Compared</div>
       <div class="sdesc">IEA, EIA, and OPEC compared &mdash; where the three major forecasting bodies agree and diverge on demand, supply, and price outlook.</div>
-      <div class="ph"><div class="phi">&#x229F;</div><h3>Forecast comparison</h3><p>IEA OMR, EIA STEO, OPEC MOMR, GECF.</p></div>
+      <div id="cards-supply-demand" class="cards-container" data-section="supply-demand">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-frameworks">
       <div class="sey">Strategic Frameworks</div><div class="stitle">The Analyst's Toolkit</div>
@@ -293,27 +353,57 @@ body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);dis
     <div class="sv" id="section-narratives">
       <div class="sey">Energy Transition &middot; Narratives</div><div class="stitle">The Story of the Shift</div>
       <div class="sdesc">The stories, data, and frameworks shaping how the world understands the shift away from fossil fuels &mdash; policy, finance, and society.</div>
-      <div class="ph"><div class="phi">&#x2295;</div><h3>Narrative intelligence</h3><p>Canary Media, Carbon Brief, BNEF, Gerard Reid, Adam Tooze.</p></div>
+      <div id="cards-narratives" class="cards-container" data-section="narratives">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-hydrogen">
       <div class="sey">Energy Transition &middot; Hydrogen</div><div class="stitle">Promise, Progress &amp; Projects</div>
       <div class="sdesc">Green and blue hydrogen developments, electrolyser economics, policy mandates, project FIDs, and the road to commercial scale.</div>
-      <div class="ph"><div class="phi">&#x2295;</div><h3>Hydrogen tracker</h3><p>H2 Bulletin, Hydrogen Insight, H2Tech, Hydrogen Council.</p></div>
+      <div id="cards-hydrogen" class="cards-container" data-section="hydrogen">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-nuclear">
       <div class="sey">Energy Transition &middot; Nuclear &amp; Storage</div><div class="stitle">The Quiet Renaissance</div>
       <div class="sdesc">SMR milestones, reactor pipeline, battery storage deployments, grid-scale projects, and the baseload renaissance.</div>
-      <div class="ph"><div class="phi">&#x2295;</div><h3>Nuclear &amp; storage tracker</h3><p>World Nuclear News, NEI Magazine, Energy Storage News.</p></div>
+      <div id="cards-nuclear" class="cards-container" data-section="nuclear">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-ccus">
       <div class="sey">Energy Transition &middot; CCUS &amp; Carbon</div><div class="stitle">Capture, Utilise, Store</div>
       <div class="sdesc">Carbon capture project status, carbon market prices, DAC developments, and the role of CCS in net-zero pathways.</div>
-      <div class="ph"><div class="phi">&#x2295;</div><h3>CCUS tracker</h3><p>Carbon Capture Journal, Global CCS Institute, Carbon Brief.</p></div>
+      <div id="cards-ccus" class="cards-container" data-section="ccus">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-clean-capital">
       <div class="sey">Energy Transition &middot; Clean Capital</div><div class="stitle">Capital Flows in the Energy Shift</div>
       <div class="sdesc">Investment flows, deal activity, financing structures, and capital benchmarks across the clean energy spectrum.</div>
-      <div class="ph"><div class="phi">&#x2295;</div><h3>Investment intelligence</h3><p>BloombergNEF, IRENA, RMI, IEEFA, Carbon Tracker.</p></div>
+      <div id="cards-clean-capital" class="cards-container" data-section="clean-capital">
+      <div class="cards-loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
     </div>
     <div class="sv" id="section-map">
       <div class="sey">Global Oil &amp; Gas Map</div><div class="stitle">Refineries, Platforms &amp; Pipeline Hubs</div>
