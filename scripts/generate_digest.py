@@ -45,13 +45,12 @@ SECTIONS = {
             "Tickers (5): Brent crude, WTI crude, Henry Hub natural gas, TTF European gas, Newcastle coal. "
             "Key movers (3): the 3 most significant energy company movers today "
             "(publicly traded E&P, integrated major, or utility). "
-            "Cards (5): CRITICAL — each card must explain the price driver for its matching ticker "
-            "in exactly this order: "
-            "(1) Brent crude — what is moving its price today and why; "
-            "(2) WTI crude — spread vs Brent, U.S. production/inventory context; "
-            "(3) Henry Hub natural gas — U.S. supply/demand/storage driver; "
-            "(4) TTF European gas — European storage, LNG flows, or policy driver; "
-            "(5) Newcastle coal — Asia-Pacific demand, seaborne trade, or supply driver. "
+            "ticker_reasons (5): one brief reason PER TICKER in the same order "
+            "(Brent, WTI, Henry Hub, TTF, Newcastle coal). "
+            "Each reason is 1-2 sentences explaining ONLY that commodity's price driver. "
+            "financial_news (4): COMPLETELY DIFFERENT stories from ticker_reasons — "
+            "broader market intelligence: OPEC+ policy, refinery/shipping events, "
+            "demand outlook, energy policy, or notable trade flows. "
             "Cite from: {src}."
         ),
     },
@@ -220,18 +219,22 @@ _LONG_SYS = (
     '"long_read":true}}\n'
     "No markdown fences. No preamble. JSON only."
 )
-# Special prompt for market-pulse — three arrays in one response
+# Special prompt for market-pulse — four arrays, no repeated content
 _MARKET_SYS = (
     "You are a senior energy intelligence analyst. Today: {date}.\n"
-    "Return ONLY a valid JSON object with exactly three keys: tickers, key_movers, cards.\n\n"
-    "tickers — array of 5 items, one per commodity:\n"
+    "Return ONLY a valid JSON object with exactly four keys: tickers, key_movers, ticker_reasons, financial_news.\n\n"
+    "tickers — 5 items, one per commodity:\n"
     '  {{"symbol":"BRENT","label":"Brent Crude Oil","price":"$82.45","unit":"/bbl","change":"+1.2%","dir":"up"}}\n'
-    '  dir must be "up", "down", or "flat". price includes the $ sign.\n\n'
-    "key_movers — array of 3 items, most significant publicly-traded energy company movers today:\n"
-    '  {{"name":"Saudi Aramco","ticker":"2222.SR","move":"+2.1%","note":"Brief one-line reason","dir":"up"}}\n\n'
-    "cards — array of 5 market intelligence cards:\n"
+    '  dir must be \"up\", \"down\", or \"flat\". price includes currency symbol.\n\n'
+    "key_movers — 3 items, most significant publicly-traded energy company movers today:\n"
+    '  {{"name":"Saudi Aramco","ticker":"2222.SR","move":"+2.1%","note":"One-line reason","dir":"up"}}\n\n'
+    "ticker_reasons — 5 items in SAME ORDER as tickers (Brent, WTI, HH, TTF, Newcastle coal).\n"
+    "Each explains ONLY that commodity's price driver in 1-2 sentences. Fields:\n"
+    '  {{"body":"1-2 sentences on this commodity price driver today.","source":"Publication"}}\n\n'
+    "financial_news — 4 items with DIFFERENT content from ticker_reasons:\n"
+    "Cover OPEC+ policy, refinery/shipping events, demand outlook, or trade flows.\n"
     '  {{"title":"Headline max 12 words","source":"Publication","source_url":"https://url.com",'
-    '"body":"2-3 analytical sentences with specific numbers.","long_read":false}}\n\n'
+    '"body":"2-3 analytical sentences with specific numbers."}}\n\n'
     "No markdown fences. No preamble. JSON only."
 )
 
@@ -307,7 +310,7 @@ def _call(sid: str, cfg: dict) -> list:
 # ── Market Pulse: special call — returns tickers + key_movers + cards ─────
 def _call_market() -> dict:
     """Call GPT-4o for market-pulse. Returns {"tickers":[...], "key_movers":[...], "cards":[...]}."""
-    _empty = {"tickers": [], "key_movers": [], "cards": []}
+    _empty = {"tickers": [], "key_movers": [], "ticker_reasons": [], "financial_news": []}
     system = _MARKET_SYS.format(date=DATE_STR)
     cfg    = SECTIONS["market-pulse"]
     prompt = cfg["prompt"].format(date=DATE_STR, n=cfg["cards"], src=cfg["src"])
@@ -337,16 +340,24 @@ def _call_market() -> dict:
             for m in (lst or [])[:10] if isinstance(m, dict)
         ]
 
-    def _cd(lst):
+    def _reason(lst):
         return [
             {
-                "title":      str(c.get("title",      "Untitled")).strip(),
-                "source":     str(c.get("source",     "")).strip(),
-                "source_url": str(c.get("source_url", "#")).strip(),
-                "body":       str(c.get("body",       "")).strip(),
-                "long_read":  False,
+                "body":   str(r.get("body",   "")).strip(),
+                "source": str(r.get("source", "")).strip(),
             }
-            for c in (lst or [])[:15] if isinstance(c, dict)
+            for r in (lst or [])[:10] if isinstance(r, dict)
+        ]
+
+    def _news(lst):
+        return [
+            {
+                "title":      str(n.get("title",      "Untitled")).strip(),
+                "source":     str(n.get("source",     "")).strip(),
+                "source_url": str(n.get("source_url", "#")).strip(),
+                "body":       str(n.get("body",       "")).strip(),
+            }
+            for n in (lst or [])[:10] if isinstance(n, dict)
         ]
 
     for attempt in range(3):
@@ -359,15 +370,16 @@ def _call_market() -> dict:
                 ],
                 response_format={"type": "json_object"},
                 temperature=0.35,
-                max_tokens=3000,
+                max_tokens=3500,
             )
             raw = (resp.choices[0].message.content or "").strip()
             raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE)
             parsed = json.loads(raw)
             return {
-                "tickers":    _tk(parsed.get("tickers",    [])),
-                "key_movers": _mv(parsed.get("key_movers", [])),
-                "cards":      _cd(parsed.get("cards",      [])),
+                "tickers":        _tk(parsed.get("tickers",        [])),
+                "key_movers":     _mv(parsed.get("key_movers",     [])),
+                "ticker_reasons": _reason(parsed.get("ticker_reasons", [])),
+                "financial_news": _news(parsed.get("financial_news", [])),
             }
 
         except RateLimitError:

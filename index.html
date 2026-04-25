@@ -1743,7 +1743,6 @@ function loadDigest() {
 // ── Ticker + section rendering ─────────────────────────────────────────────
 function renderMarketPulse(sec) {
   var tickers = sec.tickers || [];
-  var cards   = sec.cards   || [];
   var movers  = sec.key_movers || [];
 
   // ── Ticker rows: vertical, each with branch connector to reason card ────
@@ -1753,10 +1752,8 @@ function renderMarketPulse(sec) {
     tickers.forEach(function(tk, i) {
       var dir   = (tk.dir||'flat').toLowerCase();
       var arrow = dir==='up' ? '▲' : dir==='down' ? '▼' : '●';
-      var card  = cards[i] || {};
-      // Strip HTML tags from body, keep first ~130 chars as brief reason
-      var reason = (card.body||'').replace(/<[^>]+>/g, '').trim();
-      // No truncation — show full card text
+      var reason = sec.ticker_reasons && sec.ticker_reasons[i] ? sec.ticker_reasons[i] : {};
+      var reasonText = (reason.body||'').replace(/<[^>]+>/g, '').trim();
       var row = document.createElement('div');
       row.className = 'tk-row dir-' + dir;
       row.innerHTML =
@@ -1769,8 +1766,8 @@ function renderMarketPulse(sec) {
         '</div>' +
         '<div class="tk-branch"></div>' +
         '<div class="tk-reason">' +
-          '<div class="tk-reason-body">' + escHtml(reason) + '</div>' +
-          (card.source ? '<div class="tk-reason-src">' + escHtml(card.source) + '</div>' : '') +
+          '<div class="tk-reason-body">' + escHtml(reasonText) + '</div>' +
+          (reason.source ? '<div class="tk-reason-src">' + escHtml(reason.source) + '</div>' : '') +
         '</div>';
       strip.appendChild(row);
     });
@@ -1799,7 +1796,8 @@ function renderMarketPulse(sec) {
 
   if (cardsGrid) {
     cardsGrid.innerHTML = '';
-    cards.forEach(function(c) {
+    var news = sec.financial_news || [];
+    news.forEach(function(c) {
       var card = document.createElement('div');
       card.className = 'fn-card';
       card.innerHTML =
@@ -1811,7 +1809,7 @@ function renderMarketPulse(sec) {
     });
   }
 
-  if (tickers.length || movers.length || cards.length) {
+  if (tickers.length || movers.length) {
     fnWrap.style.display = 'block';
   }
 }
