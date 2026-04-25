@@ -35,7 +35,7 @@
 html,body{height:100%}
 body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);display:flex;flex-direction:column;height:100vh;overflow:hidden}
 
-#banner{position:relative;height:var(--bh);flex-shrink:0;overflow:hidden}
+#banner{position:relative;height:var(--bh);flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#060e18 0%,#0d2035 30%,#091a2a 60%,#040c15 100%)}
 #bimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.42) saturate(0.72);opacity:0.85}
 #bgrad{position:absolute;inset:0;background:linear-gradient(105deg,rgba(12,15,14,0.97) 0%,rgba(12,15,14,0.65) 45%,rgba(12,15,14,0.1) 100%)}
 #bcontent{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem 2.4rem 1.6rem}
@@ -457,29 +457,42 @@ body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);dis
 .lr-body em { font-style: italic; color: var(--sage); }
 .lr-body u { text-decoration: underline; text-decoration-color: rgba(217,176,110,0.5); text-underline-offset: 2px; }
 
-/* ── Market Pulse Ticker ────────────────────────────────────────────────── */
-#ticker-strip{display:flex;flex-wrap:wrap;gap:0;margin-bottom:1.4rem;background:var(--sf);border:1px solid var(--bd2);border-radius:8px;overflow:hidden}
-.tk-item{display:flex;flex-direction:column;padding:0.8rem 1.2rem;border-right:1px solid var(--bd);flex:1;min-width:140px;position:relative}
-.tk-item:last-child{border-right:none}
-.tk-symbol{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--t4);margin-bottom:2px}
-.tk-name{font-family:'Source Serif 4',serif;font-size:12px;color:var(--t3);margin-bottom:4px;line-height:1.2}
-.tk-price{font-family:'JetBrains Mono',monospace;font-size:1.25rem;font-weight:500;color:var(--t1);line-height:1;margin-bottom:3px}
-.tk-unit{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t4);display:inline;margin-left:3px}
-.tk-change{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;margin-bottom:3px}
-.tk-up .tk-change,.tk-up .tk-price{color:var(--teal)}
-.tk-down .tk-change,.tk-down .tk-price{color:var(--rust)}
-.tk-asof{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t4);letter-spacing:0.05em}
+/* ── Market Pulse Ticker (vertical rows with branch connectors) ────────── */
+#ticker-strip{display:flex;flex-direction:column;margin-bottom:1.4rem;background:var(--sf);border:1px solid var(--bd2);border-radius:8px;overflow:hidden}
+.tk-row{display:grid;grid-template-columns:190px 44px 1fr;align-items:center;padding:0.9rem 1.2rem;border-bottom:1px solid var(--bd);gap:0;min-height:72px}
+.tk-row:last-child{border-bottom:none}
+.tk-left{display:flex;flex-direction:column;gap:2px}
+.tk-symbol{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--t4)}
+.tk-name{font-size:11.5px;color:var(--t3);line-height:1.2}
+.tk-price{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:600;color:var(--t1);line-height:1;margin-top:3px}
+.tk-unit{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t4);margin-left:3px;font-weight:400}
+.tk-change{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;margin-top:2px}
+.tk-row.dir-up .tk-change,.tk-row.dir-up .tk-price{color:var(--teal)}
+.tk-row.dir-down .tk-change,.tk-row.dir-down .tk-price{color:var(--rust)}
+.tk-branch{display:flex;align-items:center;justify-content:center;position:relative;height:100%}
+.tk-branch::before{content:'';position:absolute;left:8px;right:8px;top:50%;height:1px;background:var(--bd2)}
+.tk-branch::after{content:'◆';position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:7px;color:var(--bd2)}
+.tk-reason{padding-left:12px;border-left:1px solid var(--bd)}
+.tk-reason-body{font-family:'Source Serif 4',serif;font-size:11.5px;color:var(--t2);line-height:1.55}
+.tk-reason-src{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t4);margin-top:4px;letter-spacing:0.05em}
 
-#key-movers-wrap{margin-bottom:1.4rem}
-.km-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.7rem}
-#key-movers{display:flex;flex-wrap:wrap;gap:0.7rem}
-.km-card{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:0.75rem 1rem;flex:1;min-width:150px;max-width:220px}
-.km-name{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:var(--t1);margin-bottom:1px;line-height:1.2}
-.km-sym{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t4);margin-bottom:5px}
-.km-chg{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;margin-bottom:5px}
-.km-up .km-chg{color:var(--teal)}
-.km-down .km-chg{color:var(--rust)}
-.km-note{font-size:11.5px;font-weight:300;color:var(--t3);line-height:1.4;font-family:'Source Serif 4',serif}
+/* ── Financial News (replaces Key Movers — compact grid) ─────────────────*/
+#fn-wrap{margin-bottom:1.4rem}
+.fn-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem}
+.fn-movers{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem}
+.fn-chip{display:flex;align-items:baseline;gap:0.4rem;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:0.4rem 0.75rem;font-size:11.5px;flex-wrap:wrap}
+.fn-chip-name{font-family:'Source Serif 4',serif;font-weight:600;color:var(--t1)}
+.fn-chip-ticker{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t4)}
+.fn-chip-move{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500}
+.fn-chip.dir-up .fn-chip-move{color:var(--teal)}
+.fn-chip.dir-down .fn-chip-move{color:var(--rust)}
+.fn-chip-note{font-size:11px;color:var(--t3);font-style:italic;width:100%;margin-top:1px}
+.fn-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.75rem}
+.fn-card{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:0.85rem 1rem}
+.fn-card-title{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:var(--t1);line-height:1.35;margin-bottom:0.4rem}
+.fn-card-body{font-size:11.5px;color:var(--t2);line-height:1.55;margin-bottom:0.4rem}
+.fn-card-src a{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t4);text-decoration:none;letter-spacing:0.05em}
+.fn-card-src a:hover{color:var(--gold)}
 
 /* Archive viewing banner */
 #archive-banner{display:none;background:var(--abg);border:1px solid rgba(227,168,56,0.3);border-radius:6px;padding:0.5rem 1rem;margin-bottom:1rem;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.06em;display:flex;align-items:center;gap:0.7rem;justify-content:space-between}
@@ -566,8 +579,8 @@ body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);dis
       <div class="sey">Daily Market Pulse</div><div class="stitle">Oil &amp; Gas Commodity Markets</div>
       <div class="sdesc">Benchmark prices, commodity flows, and the market-moving stories of the day &mdash; the raw signal before the interpretation.</div>
       <div id="ticker-strip"></div>
-      <div id="key-movers-wrap" style="display:none"><div class="km-label">Key Movers</div><div id="key-movers"></div></div>
-      <div id="cards-market-pulse" class="cards-container" data-section="market-pulse">
+      <div id="fn-wrap" style="display:none"><div class="fn-label">Financial News</div><div id="fn-movers-row" class="fn-movers"></div><div id="fn-cards-grid" class="fn-cards-grid"></div></div>
+      <div id="cards-market-pulse" class="cards-container" data-section="market-pulse" style="display:none">
       <div class="cards-loading">
         <div class="loading-dot"></div>
         <div class="loading-dot"></div>
@@ -793,7 +806,8 @@ function bannerSet(dateObj) {
   var img = document.getElementById('bimg');
   if (!img) return;
   img.style.opacity = 0;
-  img.src = 'https://source.unsplash.com/featured/1600x900/?' + shuffled[idx] + '&sig=' + sig;
+  img.src = 'https://picsum.photos/seed/' + sig + '/1600/900';
+  img.onerror = function(){ img.style.display='none'; };
   img.onload = function() { img.style.opacity = 1; };
   var el = document.getElementById('bdateline');
   if (el) el.textContent = dateFmt(dateObj);
@@ -1705,43 +1719,78 @@ function loadDigest() {
 
 // ── Ticker + section rendering ─────────────────────────────────────────────
 function renderMarketPulse(sec) {
-  // Ticker strip
+  var tickers = sec.tickers || [];
+  var cards   = sec.cards   || [];
+  var movers  = sec.key_movers || [];
+
+  // ── Ticker rows: vertical, each with branch connector to reason card ────
   var strip = document.getElementById('ticker-strip');
-  if (strip && sec.tickers && sec.tickers.length) {
+  if (strip) {
     strip.innerHTML = '';
-    sec.tickers.forEach(function(tk) {
-      var dir = (tk.dir||'').toLowerCase();
+    tickers.forEach(function(tk, i) {
+      var dir   = (tk.dir||'flat').toLowerCase();
       var arrow = dir==='up' ? '▲' : dir==='down' ? '▼' : '●';
-      var item = document.createElement('div');
-      item.className = 'tk-item tk-' + (dir||'flat');
-      item.innerHTML =
-        '<div class="tk-symbol">' + escHtml(tk.symbol||'') + '</div>' +
-        '<div class="tk-name">' + escHtml(tk.label||'') + '</div>' +
-        '<div class="tk-price">' + escHtml(tk.price||'—') + '<span class="tk-unit">' + escHtml(tk.unit||'') + '</span></div>' +
-        '<div class="tk-change">' + arrow + ' ' + escHtml(tk.change||'') + '</div>' +
-      strip.appendChild(item);
+      var card  = cards[i] || {};
+      // Strip HTML tags from body, keep first ~130 chars as brief reason
+      var reason = (card.body||'').replace(/<[^>]+>/g, '').trim();
+      if (reason.length > 130) { reason = reason.slice(0, 130) + '…'; }
+      var row = document.createElement('div');
+      row.className = 'tk-row dir-' + dir;
+      row.innerHTML =
+        '<div class="tk-left">' +
+          '<div class="tk-symbol">'  + escHtml(tk.symbol||'')  + '</div>' +
+          '<div class="tk-name">'    + escHtml(tk.label||'')   + '</div>' +
+          '<div class="tk-price">'   + escHtml(tk.price||'—')  +
+            '<span class="tk-unit">' + escHtml(tk.unit||'')    + '</span></div>' +
+          '<div class="tk-change">'  + arrow + ' '             + escHtml(tk.change||'') + '</div>' +
+        '</div>' +
+        '<div class="tk-branch"></div>' +
+        '<div class="tk-reason">' +
+          '<div class="tk-reason-body">' + escHtml(reason) + '</div>' +
+          (card.source ? '<div class="tk-reason-src">' + escHtml(card.source) + '</div>' : '') +
+        '</div>';
+      strip.appendChild(row);
     });
   }
-  // Key movers
-  var kmw = document.getElementById('key-movers-wrap');
-  var km = document.getElementById('key-movers');
-  if (km && sec.key_movers && sec.key_movers.length) {
-    km.innerHTML = '';
-    sec.key_movers.forEach(function(m) {
-      var dir = (m.dir||'').toLowerCase();
+
+  // ── Financial News: movers as chips + all cards in a grid ──────────────
+  var fnWrap     = document.getElementById('fn-wrap');
+  var moversRow  = document.getElementById('fn-movers-row');
+  var cardsGrid  = document.getElementById('fn-cards-grid');
+  if (!fnWrap) return;
+
+  if (moversRow) {
+    moversRow.innerHTML = '';
+    movers.forEach(function(m) {
+      var dir = (m.dir||'flat').toLowerCase();
+      var chip = document.createElement('div');
+      chip.className = 'fn-chip dir-' + dir;
+      chip.innerHTML =
+        '<span class="fn-chip-name">'   + escHtml(m.name||'')   + '</span>' +
+        '<span class="fn-chip-ticker">' + escHtml(m.ticker||'') + '</span>' +
+        '<span class="fn-chip-move">'   + escHtml(m.move||'')   + '</span>' +
+        '<span class="fn-chip-note">'   + escHtml(m.note||'')   + '</span>';
+      moversRow.appendChild(chip);
+    });
+  }
+
+  if (cardsGrid) {
+    cardsGrid.innerHTML = '';
+    cards.forEach(function(c) {
       var card = document.createElement('div');
-      card.className = 'km-card km-' + (dir||'flat');
+      card.className = 'fn-card';
       card.innerHTML =
-        '<div class="km-name">' + escHtml(m.name||'') + '</div>' +
-        '<div class="km-sym">' + escHtml(m.ticker||'') + '</div>' +
-        '<div class="km-chg">' + escHtml(m.move||'') + '</div>' +
-        '<div class="km-note">' + escHtml(m.note||'') + '</div>';
-      km.appendChild(card);
+        '<div class="fn-card-title">' + escHtml(c.title||'') + '</div>' +
+        '<div class="fn-card-body">'  + (c.body||'')         + '</div>' +
+        '<div class="fn-card-src"><a href="' + escHtml(c.source_url||'#') +
+          '" target="_blank" rel="noopener">' + escHtml(c.source||'') + '</a></div>';
+      cardsGrid.appendChild(card);
     });
-    if(kmw) kmw.style.display='block';
   }
-  // Analysis cards
-  populateSection('market-pulse', sec.cards || []);
+
+  if (tickers.length || movers.length || cards.length) {
+    fnWrap.style.display = 'block';
+  }
 }
 
 function renderAllSections(data) {
@@ -1773,7 +1822,7 @@ function loadArchiveDate(dateStr) {
     c.innerHTML='<div class="cards-loading"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>';
   });
   var strip=document.getElementById('ticker-strip');if(strip)strip.innerHTML='';
-  var kmw=document.getElementById('key-movers-wrap');if(kmw)kmw.style.display='none';
+  var fnw=document.getElementById('fn-wrap');if(fnw)fnw.style.display='none';
   // Fetch archive file
   var url = 'data/archive/' + dateStr + '.json?v=' + Date.now();
   fetch(url)
