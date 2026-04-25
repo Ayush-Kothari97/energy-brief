@@ -36,8 +36,8 @@ html,body{height:100%}
 body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);display:flex;flex-direction:column;height:100vh;overflow:hidden}
 
 #banner{position:relative;height:var(--bh);flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#060e18 0%,#0d2035 30%,#091a2a 60%,#040c15 100%)}
-#bimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.42) saturate(0.72);opacity:0.85}
-#bgrad{position:absolute;inset:0;background:linear-gradient(105deg,rgba(12,15,14,0.97) 0%,rgba(12,15,14,0.65) 45%,rgba(12,15,14,0.1) 100%)}
+#bimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.62) saturate(0.80);opacity:1}
+#bgrad{position:absolute;inset:0;background:linear-gradient(105deg,rgba(12,15,14,0.72) 0%,rgba(12,15,14,0.40) 50%,rgba(12,15,14,0.05) 100%)}
 #bcontent{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem 2.4rem 1.6rem}
 #beyebrow{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;letter-spacing:0.26em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem}
 #bheadline{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:500;color:#f7f4ed;line-height:1.1;text-shadow:0 2px 24px rgba(0,0,0,0.75)}
@@ -471,7 +471,7 @@ body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);dis
 .tk-row.dir-down .tk-change,.tk-row.dir-down .tk-price{color:var(--rust)}
 .tk-branch{display:flex;align-items:center;justify-content:center;position:relative;height:100%}
 .tk-branch::before{content:'';position:absolute;left:8px;right:8px;top:50%;height:1px;background:var(--bd2)}
-.tk-branch::after{content:'◆';position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:7px;color:var(--bd2)}
+.tk-branch::after{display:none}
 .tk-reason{padding-left:12px;border-left:1px solid var(--bd)}
 .tk-reason-body{font-family:'Source Serif 4',serif;font-size:11.5px;color:var(--t2);line-height:1.55}
 .tk-reason-src{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t4);margin-top:4px;letter-spacing:0.05em}
@@ -779,7 +779,25 @@ body{font-family:'Source Serif 4',serif;background:var(--bg);color:var(--t1);dis
   </main>
 </div>
 <script>
-var BANNER_TOPICS=['oil-refinery-industrial','offshore-oil-rig','petroleum-pipeline-industry','gas-flare-night-industrial','lng-terminal-port','oil-drilling-rig','petrochemical-plant-night','crude-oil-refinery','energy-industrial-plant','refinery-night-industrial','oil-pump-jack-field','pipeline-industrial-energy','chemical-plant-factory','offshore-oil-platform-ocean','tanker-ship-ocean','natural-gas-plant','oil-field-energy','industrial-factory-night','steel-industrial','power-plant-industrial'];
+// Curated Unsplash photo IDs — industrial / O&G themed, verified direct CDN links
+// Cascade loader: if one ID 404s, it automatically tries the next
+var BANNER_IDS=[
+  '1518709268805-4e9042af9f23', // refinery night
+  '1558618666-fcd25c85cd64',   // industrial pipes
+  '1494587416117-8dc8b6e38c74',// power plant
+  '1565958011-8f8d45d04f5c',   // factory / industrial
+  '1581094651696-1f01c0018e51',// oil / gas industrial
+  '1504198266287-1659872e6590',// energy infrastructure
+  '1513828583688-c4eb4de6d7a2',// industrial night
+  '1594818379496-da2f5502a4a3',// refinery / processing
+  '1573804633927-bfcbcd909acd',// industrial plant
+  '1492496483498-1c4c7b6f0a42',// pipeline / energy
+  '1569407228235-463c13b75c75',// oil field
+  '1551601651-bc60f254d532',   // gas processing
+  '1614064641938-3bbdc4d695a3',// offshore platform
+  '1508690400525-9a46b6bcc83e',// lng terminal
+  '1536089518605-9c8949f89e69' // industrial landscape
+];
 const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 function dateGetDOY(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/864e5)}
@@ -797,18 +815,23 @@ function seededShuffle(arr, seed) {
   return a;
 }
 function bannerSet(dateObj) {
-  // Shuffle topics monthly, index by day-of-year — changes daily, cycles monthly
   var seed = dateObj.getFullYear() * 12 + dateObj.getMonth();
-  var shuffled = seededShuffle(BANNER_TOPICS, seed);
-  var doy = dateGetDOY(dateObj);
-  var idx = doy % shuffled.length;
-  var sig = seed * 400 + doy;  // unique number per day for Unsplash cache-bust
-  var img = document.getElementById('bimg');
+  var doy  = dateGetDOY(dateObj);
+  var start = (seed * 7 + doy) % BANNER_IDS.length;  // deterministic per day
+  var img  = document.getElementById('bimg');
   if (!img) return;
   img.style.opacity = 0;
-  img.src = 'https://picsum.photos/seed/' + sig + '/1600/900';
-  img.onerror = function(){ img.style.display='none'; };
-  img.onload = function() { img.style.opacity = 1; };
+  img.style.display = '';
+  // Cascade: try each ID in turn until one loads
+  function tryLoad(attempt) {
+    if (attempt >= BANNER_IDS.length) { img.style.display = 'none'; return; }
+    var id = BANNER_IDS[(start + attempt) % BANNER_IDS.length];
+    img.onerror = function() { tryLoad(attempt + 1); };
+    img.onload  = function() { img.style.opacity = 1; };
+    img.src = 'https://images.unsplash.com/photo-' + id +
+              '?auto=format&fit=crop&w=1600&h=900&q=80';
+  }
+  tryLoad(0);
   var el = document.getElementById('bdateline');
   if (el) el.textContent = dateFmt(dateObj);
 }
@@ -1733,7 +1756,7 @@ function renderMarketPulse(sec) {
       var card  = cards[i] || {};
       // Strip HTML tags from body, keep first ~130 chars as brief reason
       var reason = (card.body||'').replace(/<[^>]+>/g, '').trim();
-      if (reason.length > 130) { reason = reason.slice(0, 130) + '…'; }
+      // No truncation — show full card text
       var row = document.createElement('div');
       row.className = 'tk-row dir-' + dir;
       row.innerHTML =
