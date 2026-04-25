@@ -193,19 +193,19 @@ SECTIONS = {
 # ── System prompts ─────────────────────────────────────────────────────────
 _SHORT_SYS = (
     "You are a senior energy intelligence analyst. Today: {date}.\n"
-    'Return ONLY a valid JSON object: {"cards":[...]}\n'
-    'Each card must have exactly: {"title":"Specific headline max 12 words","source":"Publication",'
+    'Return ONLY a valid JSON object: {{"cards":[...]}}\n'
+    'Each card must have exactly: {{"title":"Specific headline max 12 words","source":"Publication",'
     '"source_url":"https://publication-homepage.com","body":"2-3 analytical sentences with specific '
-    'numbers, dates, companies. HTML tags <strong><em><u> permitted.","long_read":false}\n'
+    'numbers, dates, companies. HTML tags <strong><em><u> permitted.","long_read":false}}\n'
     "No markdown fences. No preamble. JSON only."
 )
 _LONG_SYS = (
     "You are a senior energy intelligence analyst. Today: {date}.\n"
-    'Return ONLY a valid JSON object: {"cards":[{...}]}\n'
-    'Card fields: {"title":"Headline max 15 words","source":"Publication",'
+    'Return ONLY a valid JSON object: {{"cards":[{{...}}]}}\n'
+    'Card fields: {{"title":"Headline max 15 words","source":"Publication",'
     '"source_url":"https://publication-homepage.com","body":"Full analytical article. '
     "Use <p> tags for paragraphs. <strong> for key terms and companies. Min 600 words.\","
-    '"long_read":true}\n'
+    '"long_read":true}}\n'
     "No markdown fences. No preamble. JSON only."
 )
 
