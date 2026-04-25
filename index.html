@@ -1642,7 +1642,7 @@ function loadDigest() {
     .catch(function(err) {
       console.error('Digest load failed (both primary and fallback):', err);
       document.querySelectorAll('.cards-container').forEach(function(c) {
-        c.innerHTML = '<div class="cards-empty">Could not load today's digest. Error: ' + err.message + '</div>';
+        c.innerHTML = '<div class="cards-empty">Could not load today\'s digest. Error: ' + err.message + '</div>';
       });
     });
 }
