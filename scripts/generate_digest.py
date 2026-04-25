@@ -461,18 +461,18 @@ def main() -> None:
     long_sids  = [s for s, c in SECTIONS.items() if     c["long"]]
 
     # ── Market Pulse (special structure) ──────────────────────────────────
-    print("[0/3] Market Pulse (tickers + movers + cards)")
+    print("[0/3] Market Pulse (tickers + reasons + movers + news)")
     print("  → market-pulse ...", end=" ", flush=True)
     mp = _call_market()
-    if mp["tickers"] or mp["cards"]:
+    if mp["tickers"] or mp["ticker_reasons"]:
         results["market-pulse"] = mp
-        print(f"✓  {len(mp['tickers'])} tickers | {len(mp['key_movers'])} movers | {len(mp['cards'])} cards", flush=True)
+        print(f"✓  {len(mp['tickers'])} tickers | {len(mp['key_movers'])} movers | {len(mp['ticker_reasons'])} reasons | {len(mp['financial_news'])} news", flush=True)
     else:
         prev_mp = prev.get("market-pulse", {})
         # Handle old format (plain list) gracefully
         if isinstance(prev_mp, list):
-            prev_mp = {"tickers": [], "key_movers": [], "cards": prev_mp}
-        results["market-pulse"] = prev_mp or {"tickers": [], "key_movers": [], "cards": []}
+            prev_mp = {"tickers": [], "key_movers": [], "ticker_reasons": [], "financial_news": []}
+        results["market-pulse"] = prev_mp or {"tickers": [], "key_movers": [], "ticker_reasons": [], "financial_news": []}
         print("✗ failed — using previous", flush=True)
 
     # ── Short sections: 4 parallel workers ────────────────────────────────
