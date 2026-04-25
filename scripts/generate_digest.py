@@ -45,8 +45,13 @@ SECTIONS = {
             "Tickers (5): Brent crude, WTI crude, Henry Hub natural gas, TTF European gas, Newcastle coal. "
             "Key movers (3): the 3 most significant energy company movers today "
             "(publicly traded E&P, integrated major, or utility). "
-            "Cards (5): Brent price/movement, WTI spread vs Brent, Henry Hub gas levels, "
-            "a key OPEC+/supply development, and one refinery or shipping disruption. "
+            "Cards (5): CRITICAL — each card must explain the price driver for its matching ticker "
+            "in exactly this order: "
+            "(1) Brent crude — what is moving its price today and why; "
+            "(2) WTI crude — spread vs Brent, U.S. production/inventory context; "
+            "(3) Henry Hub natural gas — U.S. supply/demand/storage driver; "
+            "(4) TTF European gas — European storage, LNG flows, or policy driver; "
+            "(5) Newcastle coal — Asia-Pacific demand, seaborne trade, or supply driver. "
             "Cite from: {src}."
         ),
     },
