@@ -1766,7 +1766,7 @@ function loadArchiveDate(dateStr) {
   // Show archive banner
   if (banner) {
     banner.style.display = 'flex';
-    banner.innerHTML = '<div>&#x1F4C5; Viewing archive: <strong>' + dateStr + '</strong></div><span onclick="loadArchiveDate(''+dateKey(new Date())+'')" title="Back to today">&#x2715;</span>';
+    banner.innerHTML = '<div>&#x1F4C5; Viewing archive: <strong>' + dateStr + '</strong></div><span onclick="loadArchiveDate(dateKey(new Date()))" title="Back to today">&#x2715;</span>';
   }
   // Show loading spinners
   document.querySelectorAll('.cards-container').forEach(function(c){
